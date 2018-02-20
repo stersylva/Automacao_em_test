@@ -9,6 +9,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,16 +25,13 @@ public class InformacoesUsuarioTest {
         navegador = new ChromeDriver();
         navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-    }
-    @Test
-    public void testAdicionarUmaInformacaoAdcionalDoUsusario(){
-              //Nagegando para a página do Taskit!
+        //Nagegando para a página do Taskit!
         navegador.get("http://www.juliodelima.com.br/taskit/");
 
         //Clicar no link que possui o texto "Sign in"
         navegador.findElement(By.linkText("Sign in")).click();
 
-       //Identificar o formulario de login
+        //Identificar o formulario de login
         WebElement formularioSignInBox = navegador.findElement(By.id("signinbox"));
 
         //Digitar no campo com name "login" que está dentro do formulario de id "signinbox" o texto "ster"
@@ -44,44 +44,68 @@ public class InformacoesUsuarioTest {
         navegador.findElement(By.linkText("SIGN IN")).click();
 
         //Validar que dentro do elemento com class "me" está o texto "Hi, Ster"
-        WebElement me = navegador.findElement(By.className("me"));
-        String textoNoElementoMe = me.getText();
-        assertEquals("Hi, teste", textoNoElementoMe);
+        //WebElement me = navegador.findElement(By.className("me"));
+        //String textoNoElementoMe = me.getText();
+        //assertEquals("Hi, teste", textoNoElementoMe);
+
+        //Clicar em um link que possui a class "me"
+        navegador.findElement(By.className("me")).click();
+
+        //Clicar em um link que possui o texto "MORE DATA ABOUT YOU"
+        navegador.findElement(By.linkText("MORE DATA ABOUT YOU")).click();
 
 
+    }
+   // @Test
+    public void testAdicionarUmaInformacaoAdcionalDoUsusario() {
+
+        //Clicar no botão através do seu Xpath //button[@data-target="addmoredata"]
+        navegador.findElement(By.xpath("//button[@data-target=\"addmoredata\"]")).click();
+
+        //Identificar a popup onde está o formulário de id addmoredata
+        WebElement popuAddMoreData = navegador.findElement(By.id("addmoredata"));
+
+        //Na combo de name "type" escolher a opção "Phone"
+        WebElement campoType = popuAddMoreData.findElement(By.name("type"));
+        new Select(campoType).selectByVisibleText("Phone");
+
+        //No campo de name "Contact" digitar "+5511999999999"
+        popuAddMoreData.findElement(By.name("contact")).sendKeys("+5581999999999");
+
+        //Clicar no link de text "SAVE" que está na popup
+        popuAddMoreData.findElement(By.linkText("SAVE")).click();
+
+        //Na mensagem de id "toast-container" validar que o texto é "Your contact has been added!"
+        WebElement mensagemPop = navegador.findElement(By.id("toast-container"));
+        String mensagem = mensagemPop.getText();
+        assertEquals("Your contact has been added!", mensagem);
     }
 
     @Test
-    public void testAdicionarUmaInformacaoAdcionalDoUsusario02(){
-        //Nagegando para a página do Taskit!
-        navegador.get("http://www.juliodelima.com.br/taskit/");
+    public void removerUmContatoDeUmUsuario(){
+       //Clicar no elemento pelo seu xpath //span[text()="+551133334444"]/following-sibling::a
+        navegador.findElement(By.xpath("//span[text()='558187511216']/following-sibling::a")).click();
 
-        //Clicar no link que possui o texto "Sign in"
-        navegador.findElement(By.linkText("Sign in")).click();
+        //Confirmar a janela javaScript
+        navegador.switchTo().alert().accept();
 
-        //Identificar o formulario de login
-        WebElement formularioSignInBox = navegador.findElement(By.id("signinbox"));
+        //Validar que a mensagem apresentada foi "Rest in peace, dear phone!"
+        WebElement mensagemPop = navegador.findElement(By.id("toast-container"));
+        String mensagem = mensagemPop.getText();
+        assertEquals("Rest in peace, dear phone!", mensagem);
 
-        //Digitar no campo com name "login" que está dentro do formulario de id "signinbox" o texto "ster"
-        formularioSignInBox.findElement(By.name("login")).sendKeys("ster02");
+        //Aguardar até 10 segundo para que a janela desapareça
+        WebDriverWait aguardar = new WebDriverWait(navegador, 10);
+        aguardar.until(ExpectedConditions.stalenessOf(mensagemPop));
 
-        //Digitar no campo com name "password" que está dentro do formulario de id "signinbox" o texto "12345"
-        formularioSignInBox.findElement(By.name("password")).sendKeys("123456");
-
-        //Clicar no link com o texto "SIGN IN"
-        navegador.findElement(By.linkText("SIGN IN")).click();
-
-        //Validar que dentro do elemento com class "me" está o texto "Hi, Ster"
-        WebElement me = navegador.findElement(By.className("me"));
-        String textoNoElementoMe = me.getText();
-        assertEquals("Hi, teste", textoNoElementoMe);
-
-
+        //Clicar no link com o texto Logout
+        navegador.findElement(By.linkText("Logout")).click();
     }
 
-    @After
+
+   @After
     public void tearDown(){
         //Fechar o nagegador
-        navegador.quit();
+       //navegador.quit();
     }
 }
