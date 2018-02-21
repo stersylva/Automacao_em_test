@@ -20,6 +20,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import suporte.Generator;
 import suporte.Screenshot;
+import suporte.Web;
 
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +34,7 @@ public class InformacoesUsuarioTest {
 
     @Before
     public void setUp(){
-
+        navegador = Web.createChome();
 
         //Clicar no link que possui o texto "Sign in"
         navegador.findElement(By.linkText("Sign in")).click();
