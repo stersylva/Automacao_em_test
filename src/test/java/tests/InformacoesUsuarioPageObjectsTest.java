@@ -17,8 +17,13 @@ public class InformacoesUsuarioPageObjectsTest {
     @Test
     public void testAdicionarUmaInformacaoAdcionalDoUsusario(){
         new LoginPage(navegador)
-                .clickSignIn()
-                .typeLogin("ster");
+                .clicarSignIn()
+                .digitarLogin("ster")
+                .digitarPassword("12345")
+                .clicarSignIn()
+                .clicarMe()
+                .clicarAbaMoreDataAboutYou()
+                .clicarBotaoAddMoreDataAboutYou();
     }
     @After
     public void tearDown(){
