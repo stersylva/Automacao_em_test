@@ -1,0 +1,3 @@
+testAdicionarUmaInformacaoAdcionalDoUsusario,login,password,tipo,contato,mensagemEsperada,Duration(ms),Duration(ms),Duration(ms)
+"",ster,12345,Phone,+5581987511216,Your contact has been added!,7622.0,7622.0,7622.0
+"",ster,12345,E-mail,stersylva@gmail.com,Your contact has been added!,7923.0,7923.0,7923.0
